@@ -15,6 +15,7 @@ OBJS = \
   $K/proc.o \
   $K/swtch.o \
   $K/trampoline.o \
+	$K/ramdisk.o \
   $K/trap.o \
   $K/syscall.o \
   $K/sysproc.o \
@@ -153,9 +154,9 @@ ifndef CPUS
 CPUS := 3
 endif
 
-QEMUEXTRA = -drive file=fs1.img,if=none,format=raw,id=x1 -device virtio-blk-device,drive=x1,bus=virtio-mmio-bus.1
-QEMUOPTS = -machine virt -bios none -kernel $K/kernel -m 1024M -smp $(CPUS) -serial stdio -display none -cpu rv32,pmp=false
-QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+QEMUOPTS += -initrd fs.img
+QEMUOPTS += -machine virt -bios none -kernel $K/kernel -m 3G -smp $(CPUS) -serial stdio -display none -cpu rv32,pmp=false
+#QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
 qemu: $K/kernel fs.img
 	$(QEMU) $(QEMUOPTS)

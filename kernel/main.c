@@ -38,7 +38,7 @@ main()
     printf("iinit done\n");
     fileinit();      // file table
     printf("fileinit done\n");
-    virtio_disk_init(); // emulated hard disk
+    //virtio_disk_init(); // emulated hard disk
     printf("virtio_disk_init done\n");
     userinit();      // first user process
     printf("userinit done\n");

@@ -28,6 +28,8 @@ kinit()
 {
   initlock(&kmem.lock, "kmem");
   freerange(end, (void*)PHYSTOP);
+  if(PHYSTOP > RAMDISK)
+    panic("kinit");
 }
 
 void

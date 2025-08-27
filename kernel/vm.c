@@ -24,7 +24,7 @@ void
 kvminit()
 {
   kernel_pagetable = (pagetable_t) kalloc();
-  if (kernel_pagetable == 0) { 
+  if (kernel_pagetable == 0) {
     printf("kalloc failed\n");
   }
   memset(kernel_pagetable, 0, PGSIZE);
@@ -37,6 +37,9 @@ kvminit()
 
   // CLINT
   kvmmap(CLINT, CLINT, 0x10000, PTE_R | PTE_W);
+
+  // RAMDISK
+  kvmmap(RAMDISK, RAMDISK, FSSIZE * BSIZE, PTE_R | PTE_W);
 
   // PLIC
   kvmmap(PLIC, PLIC, 0x400000, PTE_R | PTE_W);
@@ -87,7 +90,7 @@ kvminithart()
 //   10..19 -- 12 bits of level-0 index.
 //    8.. 9 --  2 bits reserved for OS
 //    0.. 7 -- flags: Valid/Read/Write/Execute/User/Global/Accessed/Dirty
-// 
+//
 
 static pte_t *
 walk(pagetable_t pagetable, uint32 va, int alloc)
@@ -152,7 +155,7 @@ kvmpa(uint32 va)
   uint32 off = va % PGSIZE;
   pte_t *pte;
   uint32 pa;
-  
+
   pte = walk(kernel_pagetable, va, 0);
   if(pte == 0)
     panic("kvmpa");
@@ -366,7 +369,7 @@ void
 uvmclear(pagetable_t pagetable, uint32 va)
 {
   pte_t *pte;
-  
+
   pte = walk(pagetable, va, 0);
   if(pte == 0)
     panic("uvmclear");
