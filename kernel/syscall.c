@@ -135,6 +135,7 @@ syscall(void)
   int num;
   struct proc *p = myproc();
 
+
   num = p->tf->a7;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     p->tf->a0 = syscalls[num]();

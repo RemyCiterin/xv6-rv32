@@ -46,7 +46,7 @@ TOOLPREFIX := $(shell if riscv32-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' 
 	echo "***" 1>&2; exit 1; fi)
 endif
 
-QEMU = qemu-system-riscv32 -monitor telnet:127.0.0.1:55555,server,nowait
+QEMU = qemu-system-riscv32
 
 CC = $(TOOLPREFIX)gcc
 AS = $(TOOLPREFIX)gas
@@ -154,7 +154,7 @@ CPUS := 3
 endif
 
 QEMUEXTRA = -drive file=fs1.img,if=none,format=raw,id=x1 -device virtio-blk-device,drive=x1,bus=virtio-mmio-bus.1
-QEMUOPTS = -machine virt -bios none -kernel $K/kernel -m 1024M -smp $(CPUS) -nographic
+QEMUOPTS = -machine virt -bios none -kernel $K/kernel -m 1024M -smp $(CPUS) -serial stdio -display none -cpu rv32,pmp=false
 QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
 qemu: $K/kernel fs.img

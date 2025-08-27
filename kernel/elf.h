@@ -30,6 +30,7 @@ struct proghdr {
   uint32 paddr;
   uint32 filesz;
   uint32 memsz;
+  uint32 flags;
   uint32 align;
 };
 
