@@ -17,6 +17,8 @@ ramdiskinit(void)
 {
 }
 
+extern char RAMDISK;
+
 // If B_DIRTY is set, write buf to disk, clear B_DIRTY, set B_VALID.
 // Else if B_VALID is not set, read buf from disk, set B_VALID.
 void
@@ -29,7 +31,7 @@ ramdiskrw(struct buf *b, int write)
     panic("include/ramdiskrw: sectorno too big");
 
   uint32 diskaddr = b->blockno * BSIZE;
-  char *addr = (char *)RAMDISK + diskaddr;
+  char *addr = &RAMDISK + diskaddr;
 
   //for (int i=0; i < 1024; i++) {
   //  printf("data: %d", ((uint32*)(addr - BSIZE))[i]);

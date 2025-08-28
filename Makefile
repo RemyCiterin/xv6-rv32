@@ -72,6 +72,12 @@ endif
 
 LDFLAGS = -z max-page-size=4096
 
+$K/%.o: $K/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$K/%.o: $K/%.S fs.img
+	$(CC) -c $< -o $@
+
 $K/kernel: $(OBJS) $K/kernel.ld $U/initcode
 	$(LD) $(LDFLAGS) -T $K/kernel.ld -o $K/kernel $(OBJS)
 	$(OBJDUMP) -S $K/kernel > $K/kernel.asm
