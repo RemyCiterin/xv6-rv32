@@ -11,35 +11,33 @@ void
 main()
 {
   if(cpuid() == 0){
+    printf(" _____   ____         ____  __  __     ____   _____\n");
+    printf("|  __ \\ / __ \\       / __ \\|  \\/  |   / __ \\ / ____|\n");
+    printf("| |  | | |  | | ___ | |  | | \\  / |  | |  | | (___\n");
+    printf("| |  | | |  | |/ _ \\| |  | | |\\/| |  | |  | |\\___ \\\n");
+    printf("| |__| | |__| | (_) | |__| | |  | |  | |__| |____) |\n");
+    printf("|_____/ \\____/ \\___/ \\____/|_|  |_|   \\____/|_____/\n");
+
+    printf("\nA port of MIT's xv6 OS to my rv32ima softcore. It is a fork of \n");
+    printf("git@github.com:michaelengel/xv6-rv32.git with some minor midifications.\n");
+
     consoleinit();
     printfinit();
     printf("\n");
     printf("xv6 kernel is booting\n");
     printf("\n");
     kinit();         // physical page allocator
-    printf("kinit donen");
     kvminit();       // create kernel page table
-    printf("kvminit done\n");
     kvminithart();   // turn on paging
-    printf("kvminithart done\n");
     procinit();      // process table
-    printf("procinit done\n");
     trapinit();      // trap vectors
-    printf("trapinit done\n");
     trapinithart();  // install kernel trap vector
-    printf("trapinithart dont\n");
     plicinit();      // set up interrupt controller
-    printf("plicinit done\n");
     plicinithart();  // ask PLIC for device interrupts
-    printf("plicinithart done\n");
     binit();         // buffer cache
-    printf("binit done\n");
     iinit();         // inode cache
-    printf("iinit done\n");
     fileinit();      // file table
-    printf("fileinit done\n");
     userinit();      // first user process
-    printf("userinit done\n");
     __sync_synchronize();
     started = 1;
   } else {
