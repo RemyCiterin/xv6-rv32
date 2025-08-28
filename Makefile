@@ -29,7 +29,6 @@ OBJS = \
   $K/sysfile.o \
   $K/kernelvec.o \
   $K/plic.o \
-  $K/virtio_disk.o
 
 # riscv32-unknown-elf- or riscv32-linux-gnu-
 # perhaps in /opt/riscv/bin
@@ -75,6 +74,7 @@ LDFLAGS = -z max-page-size=4096
 $K/%.o: $K/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# entry.S depends on the file system
 $K/%.o: $K/%.S fs.img
 	$(CC) -c $< -o $@
 
@@ -162,7 +162,6 @@ endif
 
 QEMUOPTS += -initrd fs.img
 QEMUOPTS += -machine virt -bios none -kernel $K/kernel -m 3G -smp $(CPUS) -serial stdio -display none -cpu rv32,pmp=false
-#QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
 qemu: $K/kernel fs.img
 	$(QEMU) $(QEMUOPTS)

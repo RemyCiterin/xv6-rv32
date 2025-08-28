@@ -33,10 +33,6 @@ ramdiskrw(struct buf *b, int write)
   uint32 diskaddr = b->blockno * BSIZE;
   char *addr = &RAMDISK + diskaddr;
 
-  //for (int i=0; i < 1024; i++) {
-  //  printf("data: %d", ((uint32*)(addr - BSIZE))[i]);
-  //}
-
   if(write /* || (b->flags & B_DIRTY) */ ){
     // write
     memmove(addr, b->data, BSIZE);
