@@ -24,9 +24,14 @@ SECTIONS
   .data : {
     *(.data)
   }
+
+  . = ALIGN(4K);
+  PROVIDE(bss_start = .);
   .bss : {
     *(.bss)
     *(.sbss*)
      PROVIDE(end = .);
   }
+  . = ALIGN(4K);
+  PROVIDE(bss_end = .);
 }

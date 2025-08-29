@@ -23,20 +23,30 @@ main()
 
     consoleinit();
     printfinit();
-    printf("\n");
-    printf("xv6 kernel is booting\n");
-    printf("\n");
+    printf("xv6 kernel is booting:\n");
+    printf("- physical page allocator\n");
     kinit();         // physical page allocator
+    printf("- create kernel page table\n");
     kvminit();       // create kernel page table
+    printf("- turn on paging\n");
     kvminithart();   // turn on paging
+    printf("- process table\n");
     procinit();      // process table
+    printf("- trap vectors\n");
     trapinit();      // trap vectors
+    printf("- install kernel trap vector\n");
     trapinithart();  // install kernel trap vector
+    printf("- set up interrupt controller\n");
     plicinit();      // set up interrupt controller
+    printf("- ask PLIC for device interrupts\n");
     plicinithart();  // ask PLIC for device interrupts
+    printf("- buffer cache\n");
     binit();         // buffer cache
+    printf("- inode cache\n");
     iinit();         // inode cache
+    printf("- fill table\n");
     fileinit();      // file table
+    printf("- first user process\n");
     userinit();      // first user process
     __sync_synchronize();
     started = 1;
@@ -50,5 +60,6 @@ main()
     plicinithart();   // ask PLIC for device interrupts
   }
 
+  printf("\nstart scheduler!\n");
   scheduler();
 }

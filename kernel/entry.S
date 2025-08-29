@@ -10,6 +10,14 @@
 .section .text
 .globl _entry
 _entry:
+  la t0, bss_start
+  la t1, bss_end
+  bgeu t0, t1, .bss_zero_loop_end
+.bss_zero_loop:
+  sb zero, (t0)
+  addi t0, t0, 1
+  bltu t0, t1, .bss_zero_loop
+.bss_zero_loop_end:
 	# set up a stack for C.
         # stack0 is declared in start.c,
         # with a 4096-byte stack per CPU.

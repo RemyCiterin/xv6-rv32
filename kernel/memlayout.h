@@ -21,7 +21,7 @@
 #define UART0_IRQ 10
 
 // local interrupt controller, which contains the timer.
-#define CLINT 0x2000000L
+#define CLINT 0x2000000
 #define CLINT_MTIMECMP(hartid) (CLINT + 0x4000 + 8*(hartid))
 #define CLINT_MTIME (CLINT + 0xBFF8) // cycles since boot.
 
@@ -40,7 +40,7 @@
 // for use by the kernel and user pages
 // from physical address 0x80000000 to PHYSTOP.
 #define KERNBASE 0x80000000L
-#define PHYSTOP (KERNBASE + 32*1024*1024)
+#define PHYSTOP (KERNBASE + 2*1024*1024)
 
 // map the trampoline page to the highest address,
 // in both user and kernel space.

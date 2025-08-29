@@ -56,7 +56,7 @@ OBJDUMP = $(TOOLPREFIX)objdump
 
 CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb
 CFLAGS += -MD -Wno-infinite-recursion
-CFLAGS += -mcmodel=medany
+CFLAGS += -mcmodel=medany -march=rv32ima_zicsr -mabi=ilp32 -fno-builtin
 CFLAGS += -ffreestanding -fno-common -nostdlib -mno-relax
 CFLAGS += -I.
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
@@ -76,7 +76,7 @@ $K/%.o: $K/%.c
 
 # entry.S depends on the file system
 $K/%.o: $K/%.S fs.img
-	$(CC) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $K/kernel: $(OBJS) $K/kernel.ld $U/initcode
 	$(LD) $(LDFLAGS) -T $K/kernel.ld -o $K/kernel $(OBJS)
@@ -157,7 +157,7 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
 	then echo "-gdb tcp::$(GDBPORT)"; \
 	else echo "-s -p $(GDBPORT)"; fi)
 ifndef CPUS
-CPUS := 3
+CPUS := 1
 endif
 
 QEMUOPTS += -initrd fs.img

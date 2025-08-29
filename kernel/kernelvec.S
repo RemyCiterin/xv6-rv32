@@ -96,7 +96,7 @@ timervec:
         # scratch[0,4,8] : register save area.
         # scratch[16] : address of CLINT's MTIMECMP register.
         # scratch[20] : desired interval between interrupts.
-        
+
         csrrw a0, mscratch, a0
         sw a1, 0(a0)
         sw a2, 4(a0)
