@@ -183,14 +183,15 @@ devintr()
     // this is a supervisor external interrupt, via PLIC.
 
     // irq indicates which device interrupted.
-    int irq = plic_claim();
+    //int irq = plic_claim();
 
-    if(irq == UART0_IRQ){
-      uartintr();
-    } else {
-    }
+    //if(irq == UART0_IRQ){
+    //  uartintr();
+    //} else {
+    //}
 
-    plic_complete(irq);
+    //plic_complete(irq);
+    uartintr();
     return 1;
   } else if(scause == 0x80000001L){
     // software interrupt from a machine-mode timer interrupt,

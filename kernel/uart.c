@@ -71,8 +71,7 @@ uartputc(int c)
 int
 uartgetc(void)
 {
-  if(ReadReg(LSR) & 0x01){
-    // input data is ready.
+  if (ReadReg(2) & 0x01) {
     return ReadReg(RHR);
   } else {
     return -1;
