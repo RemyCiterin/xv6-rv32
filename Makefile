@@ -54,7 +54,7 @@ LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
 OBJDUMP = $(TOOLPREFIX)objdump
 
-CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb
+CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -O3
 CFLAGS += -MD -Wno-infinite-recursion
 CFLAGS += -mcmodel=medany -march=rv32ima_zicsr -mabi=ilp32 -fno-builtin
 CFLAGS += -ffreestanding -fno-common -nostdlib -mno-relax
@@ -70,6 +70,12 @@ CFLAGS += -fno-pie -nopie
 endif
 
 LDFLAGS = -z max-page-size=4096
+
+.PHONY: load
+load: kernel/kernel
+	$(OBJCOPY) -O binary kernel/kernel kernel.bin
+	sudo dd if=kernel.bin of=/dev/sdc
+	sync
 
 $K/%.o: $K/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
