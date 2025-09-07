@@ -25,6 +25,8 @@
 #define BACKSPACE 0x100
 #define C(x)  ((x)-'@')  // Control-x
 
+#define REAL_TIME 0
+
 //
 // send one character to the uart.
 //
@@ -48,7 +50,7 @@ consputc(int c)
 
 struct {
   struct spinlock lock;
-  
+
   // input
 #define INPUT_BUF 128
   char buf[INPUT_BUF];
@@ -122,7 +124,7 @@ consoleread(int user_dst, uint32 dst, int n)
     dst++;
     --n;
 
-    if(c == '\n'){
+    if(c == '\n' || REAL_TIME){
       // a whole line has arrived, return to
       // the user-level read().
       break;
@@ -172,7 +174,7 @@ consoleintr(int c)
       // store for consumption by consoleread().
       cons.buf[cons.e++ % INPUT_BUF] = c;
 
-      if(c == '\n' || c == C('D') || cons.e == cons.r+INPUT_BUF){
+      if(c == '\n' || c == C('D') || cons.e == cons.r+INPUT_BUF || REAL_TIME){
         // wake up consoleread() if a whole line (or end-of-file)
         // has arrived.
         cons.w = cons.e;
@@ -181,7 +183,7 @@ consoleintr(int c)
     }
     break;
   }
-  
+
   release(&cons.lock);
 }
 
