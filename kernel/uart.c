@@ -30,7 +30,7 @@ void
 uartputc(int c)
 {
   while (0x01 & ~ReadReg(1)) {}
-  WriteReg(4, c);
+  //WriteReg(4, c);
   WriteReg(0, c);
 }
 

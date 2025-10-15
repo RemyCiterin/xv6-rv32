@@ -40,11 +40,11 @@
 // for use by the kernel and user pages
 // from physical address KERNBASE to PHYSTOP.
 #ifdef ULX3S
-#define KERNBASE 0x80010000L
+#define KERNBASE 0x80000000L
 #else
 #define KERNBASE 0x80000000L
 #endif
-#define PHYSTOP (KERNBASE + 20*1024*1024)
+#define PHYSTOP (KERNBASE + 2*1024*1024)
 
 // map the trampoline page to the highest address,
 // in both user and kernel space.
